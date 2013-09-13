@@ -1,0 +1,277 @@
+﻿<!DOCTYPE html>
+<html ng-app="CourseTracker">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link href="Content/Site.css" rel="stylesheet" type="text/css" />
+    <link href="Content/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <title>Course Tracker</title>
+</head>
+<body ng-controller="BodyController" id="body" ng-cloak>
+    <div login></div>
+    <div class="root" ng-show="isLoggedIn()">
+
+
+        <header>
+            <h1>
+                Course Tracker</h1>
+        </header>
+        <div>
+            <table style="width: 300px;">
+                <tr>
+                    <td style="height: 25px; width: 100px;">
+                        <b>Student Name:</b> {{Data.Student.FirstName}} {{Data.Student.LastName}}
+                    </td>
+                </tr>
+                <tr>
+                    <td style="height: 25px; width: 100px;">
+                        <b>Student ID:</b>
+                    {{Data.Student.SID}}
+                </tr>
+            </table>
+        </div>
+        <!-- Start Home -->
+        <div ng-controller="HomePageController" ng-show="Data.ShowHome">
+            <h3>
+                <a href="#/">Courses</a></h3>
+            <table>
+                <thead>
+                    <tr>
+                        <td style="width: 20px;">
+                        </td>
+                        <td class="tableheaders" style="width:200px;">
+                            Course Name
+                        </td>
+                        <td class="tableheaders">
+                            Course Number
+                        </td>
+                        <td class="tableheaders">
+                            Instructor
+                        </td>
+                        <td class="tableheaders">
+                            Location
+                        </td>
+                        <td class="tableheaders" style="width:90px;">
+                            Start Date
+                        </td>
+                        <td class="tableheaders" style="width:90px;">
+                            End Date
+                        </td>
+                         <td class="tableheaders"  style="text-align:center;">
+                            View Assignments
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="Course in Data.Courses">
+                        <td>
+                            {{$index+1}}
+                        </td>
+                        <td>
+                            <a ng-href="#/Course/{{Course.objectId}}">{{Course.Name}}</a>
+                        </td>
+                        <td>
+                            <a ng-href="#/Course/{{Course.objectId}}">{{Course.Number}}</a>
+                        </td>
+                        <td>
+                            {{Course.Instructor}}
+                        </td>
+                        <td>
+                            {{Course.Location}}
+                        </td>
+                        <td>
+                            {{Course.StartDate}}
+                        </td>
+                        <td>
+                            {{Course.EndDate}}
+                        </td>
+                        <td style="text-align:center;">
+                            <input id="{{Course.objectId}}" class="aCheck"  type="checkbox" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- End Home -->
+        <!-- Start Course -->
+        <div ng-show="Data.ShowCourse">
+            <h3>
+                <a href="#/">Courses</a> > {{Data.Course.Number}} - {{Data.Course.Name}}</h3>
+            <div>
+                <div>
+                    <table>
+                        <tr>
+                            <td>
+                                <table style="width: 300px;">
+                                    <tr>
+                                        <td style="height: 25px;">
+                                            Instructor:
+                                        </td>
+                                        <td align="left">
+                                            <span style="font-weight: bold;">{{Data.Course.Instructor}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="height: 25px;">
+                                            Location:
+                                        </td>
+                                        <td align="left">
+                                            <span style="font-weight: bold;">{{Data.Course.Location}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="height: 25px; width: 100px;">
+                                            Start Date:
+                                        </td>
+                                        <td align="left">
+                                            <span style="font-weight: bold;">{{Data.Course.StartDate}}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="height: 25px; width: 100px;">
+                                            End Date:
+                                        </td>
+                                        <td align="left">
+                                            <span style="font-weight: bold;">{{Data.Course.EndDate}}</span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td>
+                                <ng-view>
+
+                            </ng-view>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <!-- End Course -->
+        <!-- Assignments-->
+        <div ng-controller="AssignmentsController" ng-show="Data.ShowAssignments">
+            <hr />
+            <table>
+                <thead>
+                    <tr>
+                        <td style="width: 20px;">
+                        </td>
+                        <td class="tableheaders" style="width: 200px;">
+                            Assignment Name
+                        </td>
+                        <td class="tableheaders" style="width: 200px;">
+                            Type
+                        </td>
+                        <td class="tableheaders" style="width: 120px;">
+                            Due Date
+                        </td>
+                        <td class="tableheaders" style="width: 120px;">
+                            Completion Date
+                        </td>
+                        <td class="tableheaders" style="width: 500px;">
+                            Description
+                        </td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="Assignment in Data.Assignments">
+                        <td>
+                            {{$index+1}}
+                        </td>
+                        <td>
+                            {{Assignment.Name}}
+                        </td>
+                        <td>
+                            {{Assignment.Type}}
+                        </td>
+                        <td>
+                            {{Assignment.DueDate}}
+                        </td>
+                        <td>
+                            {{Assignment.CompletionDate}}
+                        </td>
+                        <td>
+                            {{Assignment.Description}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- end Assignments-->
+        <!-- Add Assignment-->
+        <div style="padding-top: 10px;" ng-show="Data.ShowAddAssignmentsButton">
+            <button id="btnAddAssignments" ng-click="OpenDialog()">
+                Add Assignment</button>
+        </div>
+        <!-- end Add Assignment-->
+        <!-- Start Dialog -->
+        <div id="dialog">
+            <table>
+                <tr>
+                    <td>
+                        Assignment Name:
+                    </td>
+                    <td>
+                        <input type="text" ng-model="Assignment.Name" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Type:
+                    </td>
+                    <td>
+                        <select ng-model="Assignment.Type">
+                            <option>Reading</option>
+                            <option>Optional Reading</option>
+                            <option>Team Project</option>
+                            <option>Individual Project</option>
+                            <option>Team Assignment</option>
+                            <option>Test</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Due Date:
+                    </td>
+                    <td>
+                        <input type="text" ng-model="Assignment.DueDate" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Completion Date:
+                    </td>
+                    <td>
+                        <input type="text" ng-model="Assignment.CompletionDate" />
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">
+                        Description:
+                    </td>
+                    <td>
+                        <textarea style="width: 175px; height: 100px;" ng-model="Assignment.Description"></textarea>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <!-- End Dialog -->
+    <script src="Scripts/jquery-1.7.1.min.js" type="text/javascript"></script>
+    <script src="Scripts/jquery-ui-1.8.20.min.js" type="text/javascript"></script>
+    <script src="Scripts/angular.min.js" type="text/javascript"></script>
+    <script src="Scripts/angular-cookies.min.js" type="text/javascript"></script>
+    <script src="Scripts/parse-1.2.9.min.js" type="text/javascript"></script>
+    <script src="js/myjs.js" type="text/javascript"></script>
+    <script src="js/angular/app.js" type="text/javascript"></script>
+    <script src="js/angular/services.js" type="text/javascript"></script>
+    <script src="js/angular/controllers/bodycontroller.js" type="text/javascript"></script>
+    <script src="js/angular/controllers/homepagecontroller.js" type="text/javascript"></script>
+    <script src="js/angular/controllers/coursecontroller.js" type="text/javascript"></script>
+    <script src="js/angular/controllers/assignmentscontroller.js" type="text/javascript"></script>
+    <script src="js/angular/controllers/defaultcontroller.js" type="text/javascript"></script>
+    <script src="js/angular/services/auth.js" type="text/javascript"></script>
+    <script src="js/angular/directives/login.js" type="text/javascript"></script>
+</body>
+</html>

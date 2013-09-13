@@ -1,0 +1,13 @@
+<div ng-show="isLoggedIn()">
+    <span>Logged in as {{ user.login }}</span>
+    <button type="button" ng-click="logout()">Logout!</button>
+</div>
+
+<div class="login" title="Login">
+    <form ng-show="!isLoggedIn()">
+        <div ng-show="loginError">{{ loginError }}</div>
+        <input ng-model="user.login" autofocus/>
+        <input ng-model="user.password"/>
+        <button type="submit" ng-click="login()">Login!</button>
+    </form>
+</div>
